@@ -119,7 +119,6 @@ acceptance:
                 - test.channel.context
             filters:
                 tags: '@acceptance'
-
     extensions:
         FriendsOfBehat\ContextServiceExtension:
            imports:

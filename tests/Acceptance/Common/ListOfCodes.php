@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Test\Acceptance\Common;
 
 /**
- * Explode a list of code like 'EUR, USD'.
+ * Manage a list of code like 'EUR, USD' given to gherkins step
  */
 class ListOfCodes
 {
@@ -18,6 +18,8 @@ class ListOfCodes
     }
 
     /**
+     * @param string $separator
+     *
      * @return array
      */
     public function explode(string $separator = ',')
