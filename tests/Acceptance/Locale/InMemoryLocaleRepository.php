@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Akeneo\Test\Acceptance\Locale;
 
 use Akeneo\Component\StorageUtils\Saver\SaverInterface;
@@ -9,7 +11,7 @@ use Pim\Component\Catalog\Model\ChannelInterface;
 use Pim\Component\Catalog\Model\LocaleInterface;
 use Pim\Component\Catalog\Repository\LocaleRepositoryInterface;
 
-class InMemoryLocaleRepository implements LocaleRepositoryInterface, SaverInterface
+final class InMemoryLocaleRepository implements LocaleRepositoryInterface, SaverInterface
 {
     /** @var Collection */
     private $locales;

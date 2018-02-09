@@ -1,8 +1,6 @@
 legacy:
     suites:
         TEST-pim:
-            paths:
-                - '%paths.base%/features/EndToEnd'
             contexts:
                 - Behat\MinkExtension\Context\MinkContext
                 - Context\FeatureContext:
@@ -125,7 +123,7 @@ acceptance:
     extensions:
         FriendsOfBehat\ContextServiceExtension:
            imports:
-               - "tests/Acceptance/Resources/config/services.yml"
+               - "tests/Acceptance/Resources/config/behat/services.yml"
         FriendsOfBehat\CrossContainerExtension: ~
         FriendsOfBehat\SymfonyExtension:
             kernel:

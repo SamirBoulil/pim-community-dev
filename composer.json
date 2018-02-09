@@ -15,9 +15,9 @@
         },
         "psr-4": {
             "Pim\\Upgrade\\": "upgrades/",
+            "Pim\\Behat\\": "features/Pim/Behat",
             "Akeneo\\Test\\IntegrationTestsBundle\\": "tests/Integration/IntegrationTestsBundle/",
             "Akeneo\\Test\\Integration\\": "tests/Integration/",
-            "Pim\\Behat\\": "features/",
             "Akeneo\\Test\\Acceptance\\": "tests/Acceptance/"
         },
         "classmap": [ "app/AppKernel.php", "app/AppCache.php", "tests/Integration/AppKernelTest.php" ]

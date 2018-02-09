@@ -1,15 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Akeneo\Test\Acceptance\Channel;
 
 use Akeneo\Component\StorageUtils\Saver\SaverInterface;
+use Akeneo\Test\Acceptance\Common\PendingException;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Pim\Component\Catalog\Model\ChannelInterface;
 use Pim\Component\Catalog\Model\CurrencyInterface;
 use Pim\Component\Catalog\Repository\ChannelRepositoryInterface;
 
-class InMemoryChannelRepository implements ChannelRepositoryInterface, SaverInterface
+final class InMemoryChannelRepository implements ChannelRepositoryInterface, SaverInterface
 {
     /** @var Collection */
     private $channels;
@@ -19,138 +21,117 @@ class InMemoryChannelRepository implements ChannelRepositoryInterface, SaverInte
         $this->channels = new ArrayCollection();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getIdentifierProperties()
     {
         return ['code'];
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function findOneByIdentifier($code)
     {
         return $this->channels->get($code);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function save($channel, array $options = [])
     {
         $this->channels->set($channel->getCode(), $channel);
     }
 
     /**
-     * Return the number of existing channels
-     *
-     * @return int
-     */
-    public function countAll()
-    {
-        // TODO: Implement countAll() method.
-    }
-
-    /**
-     * Return an array of channel codes
-     *
-     * @return array
-     */
-    public function getChannelCodes()
-    {
-        // TODO: Implement getChannelCodes() method.
-    }
-
-    /**
-     * Get full channels with locales and currencies
-     *
-     * @return ChannelInterface[]
-     */
-    public function getFullChannels()
-    {
-        // TODO: Implement getFullChannels() method.
-    }
-
-    /**
-     * Get channels count for the given currency
-     *
-     * @param CurrencyInterface $currency
-     *
-     * @return int
-     */
-    public function getChannelCountUsingCurrency(CurrencyInterface $currency)
-    {
-        // TODO: Implement getChannelCountUsingCurrency() method.
-    }
-
-    /**
-     * Get channel choices
-     * Allow to list channels in an array like array[<code>] = <label>
-     *
-     * @param string $localeCode
-     *
-     * @return string[]
-     */
-    public function getLabelsIndexedByCode($localeCode)
-    {
-        // TODO: Implement getLabelsIndexedByCode() method.
-    }
-
-    /**
-     * Finds an object by its primary key / identifier.
-     *
-     * @param mixed $id The identifier.
-     *
-     * @return object|null The object.
-     */
-    public function find($id)
-    {
-        // TODO: Implement find() method.
-    }
-
-    /**
-     * Finds all objects in the repository.
-     *
-     * @return array The objects.
-     */
-    public function findAll()
-    {
-        // TODO: Implement findAll() method.
-    }
-
-    /**
-     * Finds objects by a set of criteria.
-     *
-     * Optionally sorting and limiting details can be passed. An implementation may throw
-     * an UnexpectedValueException if certain values of the sorting or limiting details are
-     * not supported.
-     *
-     * @param array      $criteria
-     * @param array|null $orderBy
-     * @param int|null   $limit
-     * @param int|null   $offset
-     *
-     * @return array The objects.
-     *
-     * @throws \UnexpectedValueException
+     * {@inheritdoc}
      */
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
-        // TODO: Implement findBy() method.
+        $channels = [];
+        foreach ($this->channels as $locale) {
+            foreach ($criteria as $key => $value) {
+                $getter = 'get' . ucfirst($key);
+                if ($locale->$getter() === $value) {
+                    $channels[$locale] = $locale;
+                }
+            }
+        }
+
+        return $channels;
     }
 
     /**
-     * Finds a single object by a set of criteria.
-     *
-     * @param array $criteria The criteria.
-     *
-     * @return object|null The object.
+     * {@inheritdoc}
+     */
+    public function countAll()
+    {
+        throw new PendingException(__METHOD__);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getChannelCodes()
+    {
+        throw new PendingException(__METHOD__);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getFullChannels()
+    {
+        throw new PendingException(__METHOD__);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getChannelCountUsingCurrency(CurrencyInterface $currency)
+    {
+        throw new PendingException(__METHOD__);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getLabelsIndexedByCode($localeCode)
+    {
+        throw new PendingException(__METHOD__);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function find($id)
+    {
+        throw new PendingException(__METHOD__);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findAll()
+    {
+        throw new PendingException(__METHOD__);
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function findOneBy(array $criteria)
     {
-        // TODO: Implement findOneBy() method.
+        throw new PendingException(__METHOD__);
     }
 
     /**
-     * Returns the class name of the object managed by the repository.
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getClassName()
     {
-        // TODO: Implement getClassName() method.
+        throw new PendingException(__METHOD__);
     }
 }
