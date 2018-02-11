@@ -34,6 +34,17 @@ services:
       - akeneo
       - behat
 
+  chromium:
+    image: markadams/chromium-xvfb-js
+    user: chromium
+    volumes:
+      - ./:/srv/pim
+      - ~/.cache/yarn:/home/node/.yarn-cache
+    working_dir: /srv/pim
+    networks:
+      - akeneo
+      - behat
+
   selenium:
     image: selenium/standalone-firefox-debug:2.53.1-beryllium
     ports:

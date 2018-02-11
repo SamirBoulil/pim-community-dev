@@ -46,6 +46,7 @@ stage("Build") {
             container("node") {
                 sh "yarn install --no-progress"
                 sh "yarn run webpack"
+                sh "yarn run webpack-test"
             }
             container("docker") {
                 sh "cp .ci/behat.community.yml behat.yml"
@@ -168,6 +169,33 @@ stage("Test") {
                     })
                 } else {
                     echo "Skipping unit test grunt"
+                }
+            },
+            "js-unit": {
+                if (launchUnitTests.equals("yes")) {
+                    withNode({
+                        sh "cd /home/jenkins/pim && yarn run unit"
+                    })
+                } else {
+                    echo "Skipping javascript unit test"
+                }
+            },
+            "js-acceptance": {
+                if (launchUnitTests.equals("yes")) {
+                    withChromium({
+                        sh "cd /home/jenkins/pim && npm run acceptance"
+                    })
+                } else {
+                    echo "Skipping javascript acceptance test"
+                }
+            },
+            "js-integration": {
+                if (launchUnitTests.equals("yes")) {
+                    withChromium({
+                        sh "cd /home/jenkins/pim && npm run integration"
+                    })
+                } else {
+                    echo "Skipping javascript integration test"
                 }
             },
             "php-coupling-detector": {
@@ -368,6 +396,22 @@ def withNode(body) {
     ]) {
         node("node-" + uuid) {
             container("node") {
+                body()
+            }
+        }
+    }
+}
+
+def withChromium(body) {
+    clearTemplateNames()
+    def uuid = UUID.randomUUID().toString()
+    podTemplate(label: "chromium-" + uuid, containers: [
+        containerTemplate(name: "chromium", ttyEnabled: true, alwaysPullImage: true, command: 'cat', image: "markadams/chromium-xvfb-js", resourceRequestCpu: '500m', resourceRequestMemory: '1000Mi')
+    ], annotations: [
+        podAnnotation(key: "pod.beta.kubernetes.io/init-containers", value: "[{\"name\": \"pim\", \"imagePullPolicy\": \"Always\", \"image\": \"eu.gcr.io/akeneo-ci/pim-community-dev:pull-request-${env.CHANGE_ID}-build-${env.BUILD_NUMBER}-ce\", \"command\": [\"sh\", \"-c\", \"cp -Rp /pim /home/jenkins\"], \"volumeMounts\":[{\"name\":\"workspace-volume\",\"mountPath\":\"/home/jenkins\"}]}]")
+    ]) {
+        node("chromium-" + uuid) {
+            container("chromium") {
                 body()
             }
         }
