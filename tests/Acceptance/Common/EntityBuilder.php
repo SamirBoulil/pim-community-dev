@@ -48,9 +48,9 @@ final class EntityBuilder
      */
     public function build(array $data)
     {
-        $category = $this->resourceFactory->create();
-        $this->resourceUpdater->update($category, $data);
-        $errors = $this->validator->validate($category);
+        $entity = $this->resourceFactory->create();
+        $this->resourceUpdater->update($entity, $data);
+        $errors = $this->validator->validate($entity);
 
         if (0 !== $errors->count()) {
             $errorMessages = [];
@@ -65,6 +65,6 @@ final class EntityBuilder
             throw new \Exception("An error occurred on resource creation:" . implode("\n", $errorMessages));
         }
 
-        return $category;
+        return $entity;
     }
 }

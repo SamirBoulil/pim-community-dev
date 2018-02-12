@@ -22,7 +22,7 @@ class ListOfCodes
      *
      * @return array
      */
-    public function explode(string $separator = ',')
+    public function explode(string $separator = ','): array
     {
         $codes = explode($separator, $this->listOfCode);
 

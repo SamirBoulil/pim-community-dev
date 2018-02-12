@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Test\Acceptance\Channel;
 
 use Akeneo\Component\StorageUtils\Saver\SaverInterface;
-use Akeneo\Test\Acceptance\Common\PendingException;
+use Akeneo\Test\Acceptance\Common\NotImplementedException;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Pim\Component\Catalog\Model\CurrencyInterface;
@@ -51,12 +51,17 @@ final class InMemoryChannelRepository implements ChannelRepositoryInterface, Sav
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $channels = [];
-        foreach ($this->channels as $locale) {
+        foreach ($this->channels as $channel) {
+            $keepThisChannel = true;
             foreach ($criteria as $key => $value) {
-                $getter = 'get' . ucfirst($key);
-                if ($locale->$getter() === $value) {
-                    $channels[$locale] = $locale;
+                $getter = sprintf('get%s', ucfirst($key));
+                if ($channel->$getter() !== $value) {
+                    $keepThisChannel = false;
                 }
+            }
+
+            if ($keepThisChannel) {
+                $channels[] = $channel;
             }
         }
 
@@ -68,7 +73,7 @@ final class InMemoryChannelRepository implements ChannelRepositoryInterface, Sav
      */
     public function countAll()
     {
-        throw new PendingException(__METHOD__);
+        throw new NotImplementedException(__METHOD__);
     }
 
     /**
@@ -76,7 +81,7 @@ final class InMemoryChannelRepository implements ChannelRepositoryInterface, Sav
      */
     public function getChannelCodes()
     {
-        throw new PendingException(__METHOD__);
+        throw new NotImplementedException(__METHOD__);
     }
 
     /**
@@ -84,7 +89,7 @@ final class InMemoryChannelRepository implements ChannelRepositoryInterface, Sav
      */
     public function getFullChannels()
     {
-        throw new PendingException(__METHOD__);
+        throw new NotImplementedException(__METHOD__);
     }
 
     /**
@@ -92,7 +97,7 @@ final class InMemoryChannelRepository implements ChannelRepositoryInterface, Sav
      */
     public function getChannelCountUsingCurrency(CurrencyInterface $currency)
     {
-        throw new PendingException(__METHOD__);
+        throw new NotImplementedException(__METHOD__);
     }
 
     /**
@@ -100,7 +105,7 @@ final class InMemoryChannelRepository implements ChannelRepositoryInterface, Sav
      */
     public function getLabelsIndexedByCode($localeCode)
     {
-        throw new PendingException(__METHOD__);
+        throw new NotImplementedException(__METHOD__);
     }
 
     /**
@@ -108,7 +113,7 @@ final class InMemoryChannelRepository implements ChannelRepositoryInterface, Sav
      */
     public function find($id)
     {
-        throw new PendingException(__METHOD__);
+        throw new NotImplementedException(__METHOD__);
     }
 
     /**
@@ -116,7 +121,7 @@ final class InMemoryChannelRepository implements ChannelRepositoryInterface, Sav
      */
     public function findAll()
     {
-        throw new PendingException(__METHOD__);
+        throw new NotImplementedException(__METHOD__);
     }
 
     /**
@@ -124,7 +129,7 @@ final class InMemoryChannelRepository implements ChannelRepositoryInterface, Sav
      */
     public function findOneBy(array $criteria)
     {
-        throw new PendingException(__METHOD__);
+        throw new NotImplementedException(__METHOD__);
     }
 
     /**
@@ -132,6 +137,6 @@ final class InMemoryChannelRepository implements ChannelRepositoryInterface, Sav
      */
     public function getClassName()
     {
-        throw new PendingException(__METHOD__);
+        throw new NotImplementedException(__METHOD__);
     }
 }

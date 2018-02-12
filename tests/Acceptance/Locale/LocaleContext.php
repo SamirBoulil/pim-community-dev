@@ -40,7 +40,7 @@ final class LocaleContext implements Context
     }
 
     /**
-     * @Then the locales :localeCodes should is activated
+     * @Then the locales :localeCodes is activated
      */
     public function iShouldHaveActivatedLocales(string $localeCodes)
     {

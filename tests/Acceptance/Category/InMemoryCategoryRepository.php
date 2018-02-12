@@ -6,7 +6,7 @@ namespace Akeneo\Test\Acceptance\Category;
 
 use Akeneo\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface;
 use Akeneo\Component\StorageUtils\Saver\SaverInterface;
-use Akeneo\Test\Acceptance\Common\PendingException;
+use Akeneo\Test\Acceptance\Common\NotImplementedException;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Persistence\ObjectRepository;
@@ -54,12 +54,17 @@ final class InMemoryCategoryRepository implements
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $categories = [];
-        foreach ($this->categories as $locale) {
+        foreach ($this->categories as $category) {
+            $keepThisCategory = true;
             foreach ($criteria as $key => $value) {
-                $getter = 'get' . ucfirst($key);
-                if ($locale->$getter() === $value) {
-                    $categories[$locale] = $locale;
+                $getter = sprintf('get%s', ucfirst($key));
+                if ($category->$getter() !== $value) {
+                    $keepThisCategory = false;
                 }
+            }
+
+            if ($keepThisCategory) {
+                $categories[] = $category;
             }
         }
 
@@ -71,7 +76,7 @@ final class InMemoryCategoryRepository implements
      */
     public function find($id)
     {
-        throw new PendingException(__METHOD__);
+        throw new NotImplementedException(__METHOD__);
     }
 
     /**
@@ -79,7 +84,7 @@ final class InMemoryCategoryRepository implements
      */
     public function findAll()
     {
-        throw new PendingException(__METHOD__);
+        throw new NotImplementedException(__METHOD__);
     }
 
     /**
@@ -87,7 +92,7 @@ final class InMemoryCategoryRepository implements
      */
     public function findOneBy(array $criteria)
     {
-        throw new PendingException(__METHOD__);
+        throw new NotImplementedException(__METHOD__);
     }
 
     /**
@@ -95,6 +100,6 @@ final class InMemoryCategoryRepository implements
      */
     public function getClassName()
     {
-        throw new PendingException(__METHOD__);
+        throw new NotImplementedException(__METHOD__);
     }
 }

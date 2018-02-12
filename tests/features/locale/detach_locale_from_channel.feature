@@ -8,11 +8,11 @@ Feature: Manage the locale status
     Given the following locales "fr_FR, en_US"
     And the following "ecommerce" channel with locales "fr_FR"
     When the locale "en_US" is added to the "ecommerce" channel
-    Then the locales "fr_FR,en_US" should is activated
+    Then the locales "fr_FR,en_US" is activated
 
   @acceptance
   Scenario: When a locale is removed from a channel it becomes disabled
     Given the following locales "fr_FR, en_US"
     And the following "ecommerce" channel with locales "fr_FR, en_US"
     When the locale "fr_FR" is removed from the "ecommerce" channel
-    Then the locales "en_US" should is activated
+    Then the locales "en_US" is activated

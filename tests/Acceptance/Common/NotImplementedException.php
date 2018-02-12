@@ -11,7 +11,7 @@ namespace Akeneo\Test\Acceptance\Common;
  * but you just need the method findBy from this interface.
  *
  */
-final class PendingException extends \Exception
+final class NotImplementedException extends \Exception
 {
     public function __construct(string $method)
     {

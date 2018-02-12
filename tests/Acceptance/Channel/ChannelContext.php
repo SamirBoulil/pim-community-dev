@@ -103,7 +103,7 @@ final class ChannelContext implements Context
         }
 
         if (null === $locale = $this->localeRepository->findOneByIdentifier($localeCode)) {
-            throw new \Exception(sprintf('Channel "%s" cannot be found', $channelCode));
+            throw new \Exception(sprintf('Locale "%s" cannot be found', $localeCode));
         }
 
         $channel->addLocale($locale);

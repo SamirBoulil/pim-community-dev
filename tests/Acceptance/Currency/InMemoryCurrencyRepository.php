@@ -6,6 +6,7 @@ namespace Akeneo\Test\Acceptance\Currency;
 
 use Akeneo\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface;
 use Akeneo\Component\StorageUtils\Saver\SaverInterface;
+use Akeneo\Test\Acceptance\Common\NotImplementedException;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Persistence\ObjectRepository;
@@ -53,12 +54,17 @@ final class InMemoryCurrencyRepository implements
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $currencies = [];
-        foreach ($this->currencies as $locale) {
+        foreach ($this->currencies as $currency) {
+            $keepThisCurrency = true;
             foreach ($criteria as $key => $value) {
-                $getter = 'get' . ucfirst($key);
-                if ($locale->$getter() === $value) {
-                    $currencies[$locale] = $locale;
+                $getter = sprintf('get%s', ucfirst($key));
+                if ($currency->$getter() !== $value) {
+                    $keepThisCurrency = false;
                 }
+            }
+
+            if ($keepThisCurrency) {
+                $currencies[] = $currency;
             }
         }
 
@@ -70,7 +76,7 @@ final class InMemoryCurrencyRepository implements
      */
     public function find($id)
     {
-        throw new PendingException(__METHOD__);
+        throw new NotImplementedException(__METHOD__);
     }
 
     /**
@@ -78,7 +84,7 @@ final class InMemoryCurrencyRepository implements
      */
     public function findAll()
     {
-        throw new PendingException(__METHOD__);
+        throw new NotImplementedException(__METHOD__);
     }
 
     /**
@@ -86,7 +92,7 @@ final class InMemoryCurrencyRepository implements
      */
     public function findOneBy(array $criteria)
     {
-        throw new PendingException(__METHOD__);
+        throw new NotImplementedException(__METHOD__);
     }
 
     /**
@@ -94,6 +100,6 @@ final class InMemoryCurrencyRepository implements
      */
     public function getClassName()
     {
-        throw new PendingException(__METHOD__);
+        throw new NotImplementedException(__METHOD__);
     }
 }
