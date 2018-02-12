@@ -1,3 +1,9 @@
+# 1.6.x
+
+## Bug fixes
+
+- PIM-7170: Fix media files unnecessarily generated during quick export
+
 # 1.6.21 (2018-01-11)
 
 ## Bug fixes
